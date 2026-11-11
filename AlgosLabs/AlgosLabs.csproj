@@ -13,6 +13,14 @@
     </ItemGroup>
 
     <ItemGroup>
+        <!-- Примеры входных данных для раздела «Стек»: копируются рядом с исполняемым файлом. -->
+        <None Update="input.txt" CopyToOutputDirectory="PreserveNewest"/>
+        <None Update="postfix.txt" CopyToOutputDirectory="PreserveNewest"/>
+        <!-- Два списка для раздела «Связный список» (первая строка — L, вторая — E). -->
+        <None Update="lists.txt" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Avalonia" Version="12.1.2"/>
         <PackageReference Include="Avalonia.Desktop" Version="12.1.2"/>
         <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.2"/>

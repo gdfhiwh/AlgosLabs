@@ -1,0 +1,120 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:AlgosLabs.ViewModels"
+             x:Class="AlgosLabs.Views.Sections.FibonacciSectionView"
+             x:DataType="vm:FibonacciViewModel">
+
+    <!-- Раздел «Индивидуальное задание (Чикишев)»: вычисление F(N) и график времени. -->
+    <Grid ColumnDefinitions="360, *" ColumnSpacing="12" Margin="0,12,0,0">
+
+        <ScrollViewer Grid.Column="0">
+            <StackPanel Spacing="12">
+
+                <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Вычисление F(N)" FontWeight="SemiBold" FontSize="14" />
+
+                        <StackPanel Spacing="4">
+                            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="6">
+                                <TextBlock Text="Номер числа Фибоначчи (N):" FontSize="12"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                <TextBlock Grid.Column="1" Text="{Binding NRangeText}" FontSize="12"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            </Grid>
+                            <NumericUpDown Value="{Binding N}"
+                                           Minimum="0"
+                                           Maximum="35"
+                                           Increment="1"
+                                           HorizontalAlignment="Stretch" />
+                        </StackPanel>
+
+                        <Button Content="Вычислить F(N)"
+                                Command="{Binding ComputeFibonacciCommand}"
+                                Classes="accent"
+                                IsEnabled="{Binding !IsBusy}"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Padding="8,8" />
+
+                        <Border Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+                                CornerRadius="4" Padding="10">
+                            <TextBlock Text="{Binding ResultText}"
+                                       FontWeight="SemiBold"
+                                       FontSize="15"
+                                       TextWrapping="Wrap" />
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Замер времени" FontWeight="SemiBold" FontSize="14" />
+
+                        <StackPanel Spacing="4">
+                            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="6">
+                                <TextBlock Text="Максимальное N:" FontSize="12"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                <TextBlock Grid.Column="1" Text="{Binding MaxNRangeText}" FontSize="12"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            </Grid>
+                            <NumericUpDown Value="{Binding MaxBenchmarkN}"
+                                           Minimum="1"
+                                           Maximum="35"
+                                           Increment="1"
+                                           HorizontalAlignment="Stretch" />
+                        </StackPanel>
+
+                        <Button Content="Построить график"
+                                Command="{Binding RunFibonacciBenchmarkCommand}"
+                                IsEnabled="{Binding !IsBusy}"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Padding="8,8" />
+
+                        <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
+
+                        <TextBlock Text="{Binding BenchmarkStatus}"
+                                   FontSize="12"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Column="1"
+                Background="{DynamicResource SystemRegionBrush}"
+                CornerRadius="8"
+                Padding="16">
+            <ScrollViewer>
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Наивное вычисление чисел Фибоначчи"
+                               FontWeight="SemiBold"
+                               FontSize="17" />
+
+                    <TextBlock TextWrapping="Wrap" FontSize="13"
+                               Text="Числа Фибоначчи задаются рекуррентно: F(0) = 0, F(1) = 1, F(n) = F(n − 1) + F(n − 2) при n ≥ 2." />
+
+                    <TextBlock TextWrapping="Wrap" FontSize="13"
+                               Text="Алгоритм вычисляет F(N) непосредственно по определению и не запоминает промежуточные значения. Поэтому при каждом обращении обе ветви рекурсии вычисляются заново, и одни и те же числа находятся многократно." />
+
+                    <TextBlock TextWrapping="Wrap" FontSize="13"
+                               Text="Из-за повторных вычислений число вызовов растёт экспоненциально: T(N) = Θ(φ^N), где φ ≈ 1,618. Именно поэтому номер числа ограничен значением 35: при N = 35 выполняется около 30 млн рекурсивных вызовов." />
+
+                    <Border Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+                            CornerRadius="4" Padding="10">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Методика замера" FontWeight="SemiBold" FontSize="13" />
+                            <TextBlock TextWrapping="Wrap" FontSize="12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                       Text="Измеряется только вызов NaiveFibonacci.Compute: без кэша, работы интерфейса и построения графика. Перед серией выполняется прогрев JIT, для каждой точки — три прогона с усреднением, перед точкой — сборка мусора." />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock TextWrapping="Wrap" FontSize="13"
+                               Text="Ограничение 35 выбрано из-за экспоненциального времени. Тип long позволяет хранить числа Фибоначчи до F(92), но в интерактивном режиме дальнейший рост N быстро становится нецелесообразным." />
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

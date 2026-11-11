@@ -57,3 +57,22 @@
   breaklines=true,
   commandchars=\\\{\}
 }
+
+% Отдельные счётчики для подписей таблиц и листингов.
+% Подписи ставятся после таблицы или блока кода и нумеруются автоматически.
+\newcounter{tablecaption}
+\newcounter{listing}
+
+\newcommand{\tablecaption}[1]{%
+  \par\smallskip
+  \begin{center}
+    \refstepcounter{tablecaption}Таблица \thetablecaption: #1
+  \end{center}
+}
+
+\newcommand{\listingcaption}[1]{%
+  \par\smallskip
+  \begin{center}
+    \refstepcounter{listing}Листинг \thelisting: #1
+  \end{center}
+}

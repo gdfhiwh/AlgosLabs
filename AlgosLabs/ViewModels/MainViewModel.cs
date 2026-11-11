@@ -9,6 +9,7 @@ using Algorithms.Infrastructure;
 using Algorithms.Interfaces;
 using Algorithms.Lab1.PowerOperations;
 using Algorithms.Lab2.Fractals;
+using Algorithms.Lab2.IndividualTasks;
 using Algorithms.Services;
 using AlgosLabs.Services;
 using AlgosLabs.Views;
@@ -141,7 +142,7 @@ public partial class MainViewModel : ObservableObject
         foreach (var item in powerAlgos) PowerAlgorithmsSelection.Add(item);
 
         var generalAlgos = foundAlgorithms
-            .Where(a => a is not (IPowerAlgorithm or IIndividualAlgorithm or IFractalAlgorithm))
+            .Where(a => a is not (IPowerAlgorithm or IIndividualAlgorithm or IFractalAlgorithm or NaiveFibonacci))
             .Select(a => new AlgorithmSelectionViewModel(a));
 
         foreach (var item in generalAlgos) AvailableAlgorithms.Add(item);
@@ -174,9 +175,30 @@ public partial class MainViewModel : ObservableObject
         AddSection(lab2, "Lab2.Hanoi", "Ханойские башни",
             () => new HanoiSectionView { DataContext = hanoiViewModel });
 
-        AddPlaceholderSection(lab2, "Lab2.Individual", "Индивидуальное задание (Чикишев)",
-            "Здесь появится индивидуальное задание второй лабы (вариант Чикишева).");
+        var fibonacciViewModel = new FibonacciViewModel();
+        AddSection(lab2, "Lab2.Individual", "Индивидуальное задание (Чикишев)",
+            () => new FibonacciSectionView { DataContext = fibonacciViewModel });
         Labs.Add(lab2);
+
+        // Лаба 3.
+        var lab3 = new LabViewModel { Title = "3 Лаба" };
+
+        var stackViewModel = new StackViewModel();
+        AddSection(lab3, "Lab3.Stack", "Стек",
+            () => new StackSectionView { DataContext = stackViewModel });
+
+        var queueViewModel = new QueueViewModel();
+        AddSection(lab3, "Lab3.Queue", "Очередь",
+            () => new QueueSectionView { DataContext = queueViewModel });
+
+        var dynamicStructuresViewModel = new DynamicStructuresViewModel();
+        AddSection(lab3, "Lab3.DynamicStructures", "Динамические структуры",
+            () => new DynamicStructuresSectionView { DataContext = dynamicStructuresViewModel });
+
+        var linkedListViewModel = new LinkedListViewModel();
+        AddSection(lab3, "Lab3.LinkedList", "Связный список",
+            () => new LinkedListSectionView { DataContext = linkedListViewModel });
+        Labs.Add(lab3);
     }
 
     /// <summary>Добавляет раздел с готовым представлением.</summary>

@@ -144,7 +144,7 @@
                                FontWeight="SemiBold"
                                TextAlignment="Center"
                                HorizontalAlignment="Center" />
-                    <TextBlock Text="Нажмите «1 Лаба» или «2 Лаба» — разделы выбранной лабы появятся внизу окна."
+                    <TextBlock Text="Нажмите «1 Лаба», «2 Лаба» или «3 Лаба» — разделы выбранной лабы появятся внизу окна."
                                FontSize="13"
                                TextWrapping="Wrap"
                                TextAlignment="Center"

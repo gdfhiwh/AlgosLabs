@@ -1,0 +1,221 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:AlgosLabs.ViewModels"
+             x:Class="AlgosLabs.Views.Sections.DynamicStructuresSectionView"
+             x:DataType="vm:DynamicStructuresViewModel">
+
+    <!-- Раздел «Динамические структуры»: четыре примера применения. -->
+    <TabControl Margin="0,12,0,0">
+
+        <!-- 1. Список: сортировка слиянием связного списка. -->
+        <TabItem Header="Список · сортировка слиянием">
+            <ScrollViewer>
+                <StackPanel Spacing="12" Margin="0,12,0,0">
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Где применяется" FontWeight="SemiBold" FontSize="14" />
+                            <TextBlock Text="Связный список не поддерживает случайный доступ, поэтому сортировка слиянием ищет середину двумя указателями и сливает готовые цепочки, переставляя ссылки. Время — O(n log n), без индексации и копирования массива."
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Исходный список (целые числа):" FontSize="12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBox Text="{Binding MergeSortInput}"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     MinHeight="64" />
+                            <Button Content="Отсортировать"
+                                    Command="{Binding RunMergeSortCommand}"
+                                    Classes="accent"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Padding="8" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Результат:" FontWeight="SemiBold" FontSize="14" />
+                            <SelectableTextBlock Text="{Binding MergeSortResult}"
+                                                 FontSize="15"
+                                                 TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <!-- 2. Стек: вычисление RPN. -->
+        <TabItem Header="Стек · RPN">
+            <ScrollViewer>
+                <StackPanel Spacing="12" Margin="0,12,0,0">
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Где применяется" FontWeight="SemiBold" FontSize="14" />
+                            <TextBlock Text="Обратная польская запись (RPN) вычисляется одним стеком: числа кладутся на вершину, а операция снимает нужное число операндов и возвращает результат. Стек — единственная структура, задающая порядок операций, скобки не нужны."
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Выражение в постфиксной записи:" FontSize="12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBox Text="{Binding RpnExpression}"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     MinHeight="52" />
+                            <TextBlock Text="Поддерживаются +, -, *, :, ^, ln, cos, sin, sqrt."
+                                       FontSize="11"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <Button Content="Вычислить"
+                                    Command="{Binding RunRpnCommand}"
+                                    Classes="accent"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Padding="8" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="{Binding RpnResult}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold" />
+                            <TextBlock Text="Пошаговый разбор:" FontSize="12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <SelectableTextBlock Text="{Binding RpnSteps}"
+                                                 FontSize="12"
+                                                 TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <!-- 3. Очередь: BFS. -->
+        <TabItem Header="Очередь · BFS">
+            <ScrollViewer>
+                <StackPanel Spacing="12" Margin="0,12,0,0">
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Где применяется" FontWeight="SemiBold" FontSize="14" />
+                            <TextBlock Text="В обходе графа в ширину (BFS) очередь задаёт порядок обработки: вершины извлекаются в порядке добавления, поэтому FIFO гарантирует неубывание расстояния от старта. Время — O(V + E), память — O(V)."
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Граф (строка на вершину: «вершина: сосед сосед»):" FontSize="12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBox Text="{Binding BfsGraph}"
+                                     AcceptsReturn="True"
+                                     TextWrapping="NoWrap"
+                                     MinHeight="120" />
+
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Стартовая вершина:" FontSize="12"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                <NumericUpDown Value="{Binding BfsStart}"
+                                               Minimum="0" Maximum="100000" Increment="1"
+                                               HorizontalAlignment="Stretch" />
+                            </StackPanel>
+
+                            <Button Content="Обойти граф"
+                                    Command="{Binding RunBfsCommand}"
+                                    Classes="accent"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Padding="8" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Порядок обхода:" FontWeight="SemiBold" FontSize="14" />
+                            <SelectableTextBlock Text="{Binding BfsOrder}"
+                                                 FontSize="14"
+                                                 TextWrapping="Wrap" />
+                            <TextBlock Text="Расстояния от старта:" FontSize="12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <SelectableTextBlock Text="{Binding BfsDistances}"
+                                                 FontSize="13"
+                                                 TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BfsInfo}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <!-- 4. Дерево: Trie и автодополнение. -->
+        <TabItem Header="Дерево · Trie">
+            <ScrollViewer>
+                <StackPanel Spacing="12" Margin="0,12,0,0">
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Где применяется" FontWeight="SemiBold" FontSize="14" />
+                            <TextBlock Text="Префиксное дерево (Trie) используют для автодополнения и поиска по префиксу. Спуск по символам занимает O(L), где L — длина префикса, независимо от количества сохранённых слов."
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Словарь (через пробел, запятую или с новой строки):" FontSize="12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBox Text="{Binding TrieWords}"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     MinHeight="80" />
+
+                            <TextBlock Text="Префикс:" FontSize="12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBox Text="{Binding TriePrefix}" />
+
+                            <Button Content="Найти автодополнение"
+                                    Command="{Binding RunAutocompleteCommand}"
+                                    Classes="accent"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Padding="8" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="{Binding TrieInfo}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Text="Варианты:" FontWeight="SemiBold" FontSize="14" />
+                            <SelectableTextBlock Text="{Binding TrieSuggestions}"
+                                                 FontSize="14"
+                                                 TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+    </TabControl>
+</UserControl>

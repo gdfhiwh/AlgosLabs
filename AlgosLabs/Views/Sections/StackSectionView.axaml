@@ -1,0 +1,231 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:AlgosLabs.ViewModels"
+             x:Class="AlgosLabs.Views.Sections.StackSectionView"
+             x:DataType="vm:StackViewModel">
+
+    <!-- Раздел «Стек»: команды из файла, замеры времени и постфиксная запись. -->
+    <Grid ColumnDefinitions="360, *" ColumnSpacing="12" Margin="0,12,0,0">
+
+        <ScrollViewer Grid.Column="0">
+            <StackPanel Spacing="12">
+
+                <!-- Операции из input.txt. -->
+                <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Операции из файла" FontWeight="SemiBold" FontSize="14" />
+                        <TextBlock Text="Команды через пробел: 1,значение — Push, 2 — Pop, 3 — Top, 4 — isEmpty, 5 — Print."
+                                   FontSize="11"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+
+                        <TextBox Text="{Binding InputFilePath}" PlaceholderText="Путь к input.txt" />
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="6">
+                            <Button Grid.Column="0"
+                                    Content="Создать пример"
+                                    Command="{Binding CreateSampleInputFileCommand}"
+                                    IsEnabled="{Binding !IsStackBusy}"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Padding="8" />
+                            <Button Grid.Column="1"
+                                    Content="Выполнить"
+                                    Command="{Binding RunStackOperationsCommand}"
+                                    IsEnabled="{Binding !IsStackBusy}"
+                                    Classes="accent"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Padding="8" />
+                        </Grid>
+
+                        <Button Content="Замерить текущий файл (5 прогонов)"
+                                Command="{Binding MeasureCurrentInputFileCommand}"
+                                IsEnabled="{Binding !IsStackBusy}"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Padding="8" />
+
+                        <TextBlock Text="{Binding StackFinalState}"
+                                   FontSize="12"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Замер на сгенерированных наборах. -->
+                <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Замер времени" FontWeight="SemiBold" FontSize="14" />
+                        <TextBlock Text="Генерируются наборы разного размера и состава; измеряется чтение файла и выполнение команд."
+                                   FontSize="11"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+
+                        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="6">
+                            <StackPanel Grid.Column="0" Spacing="4">
+                                <TextBlock Text="N от:" FontSize="11"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                <NumericUpDown Value="{Binding StackBenchmarkStartN}"
+                                               Minimum="1" Maximum="1000000" Increment="100"
+                                               HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Spacing="4">
+                                <TextBlock Text="N до:" FontSize="11"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                <NumericUpDown Value="{Binding StackBenchmarkMaxN}"
+                                               Minimum="1" Maximum="5000000" Increment="1000"
+                                               HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="4">
+                                <TextBlock Text="Шаг:" FontSize="11"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                <NumericUpDown Value="{Binding StackBenchmarkStepN}"
+                                               Minimum="1" Maximum="100000" Increment="100"
+                                               HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Button Content="Построить график"
+                                Command="{Binding RunStackBenchmarkCommand}"
+                                IsEnabled="{Binding !IsStackBusy}"
+                                Classes="accent"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Padding="8" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Постфиксная запись. -->
+                <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Постфиксная запись" FontWeight="SemiBold" FontSize="14" />
+                        <TextBlock Text="Поддерживаются операции +, -, *, :, ^, ln, cos, sin, sqrt. Выражение читается из файла."
+                                   FontSize="11"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+
+                        <TextBox Text="{Binding PostfixFilePath}" PlaceholderText="Путь к postfix.txt" />
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="6">
+                            <Button Grid.Column="0"
+                                    Content="Создать пример"
+                                    Command="{Binding CreateSamplePostfixFileCommand}"
+                                    IsEnabled="{Binding !IsStackBusy}"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Padding="8" />
+                            <Button Grid.Column="1"
+                                    Content="Вычислить"
+                                    Command="{Binding EvaluatePostfixCommand}"
+                                    IsEnabled="{Binding !IsStackBusy}"
+                                    Classes="accent"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Padding="8" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Оценка сложности постфиксного вычисления. -->
+                <Border Background="{DynamicResource SystemRegionBrush}" CornerRadius="8" Padding="12">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Оценка сложности" FontWeight="SemiBold" FontSize="14" />
+                        <TextBlock Text="{Binding PostfixComplexity}"
+                                   FontSize="11"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+
+                        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="6">
+                            <StackPanel Grid.Column="0" Spacing="4">
+                                <TextBlock Text="N от:" FontSize="11"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                <NumericUpDown Value="{Binding PostfixBenchmarkStartN}"
+                                               Minimum="1" Maximum="1000000" Increment="100"
+                                               HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Spacing="4">
+                                <TextBlock Text="N до:" FontSize="11"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                <NumericUpDown Value="{Binding PostfixBenchmarkMaxN}"
+                                               Minimum="1" Maximum="5000000" Increment="1000"
+                                               HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="4">
+                                <TextBlock Text="Шаг:" FontSize="11"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                <NumericUpDown Value="{Binding PostfixBenchmarkStepN}"
+                                               Minimum="1" Maximum="100000" Increment="100"
+                                               HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Button Content="Построить график сложности"
+                                Command="{Binding RunPostfixBenchmarkCommand}"
+                                IsEnabled="{Binding !IsStackBusy}"
+                                Classes="accent"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Padding="8" />
+                    </StackPanel>
+                </Border>
+
+                <ProgressBar IsIndeterminate="True"
+                             IsVisible="{Binding IsStackBusy}"
+                             Height="3"
+                             HorizontalAlignment="Stretch" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Результаты. -->
+        <Grid Grid.Column="1" RowDefinitions="*, *" RowSpacing="12">
+
+            <Border Grid.Row="0"
+                    Background="{DynamicResource SystemRegionBrush}"
+                    CornerRadius="8"
+                    Padding="12">
+                <Grid RowDefinitions="Auto, *">
+                    <TextBlock Grid.Row="0"
+                               Text="Результат выполнения команд"
+                               FontWeight="SemiBold"
+                               FontSize="14"
+                               Margin="0,0,0,8" />
+
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Auto">
+                        <SelectableTextBlock Text="{Binding StackLog}"
+                                             FontSize="12"
+                                             TextWrapping="NoWrap" />
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1"
+                    Background="{DynamicResource SystemRegionBrush}"
+                    CornerRadius="8"
+                    Padding="12">
+                <Grid RowDefinitions="Auto, Auto, *">
+                    <TextBlock Grid.Row="0"
+                               Text="Постфиксное выражение"
+                               FontWeight="SemiBold"
+                               FontSize="14" />
+
+                    <TextBlock Grid.Row="1"
+                               Text="{Binding PostfixResult}"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Margin="0,4,0,8" />
+
+                    <ScrollViewer Grid.Row="2"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Auto">
+                        <SelectableTextBlock Text="{Binding PostfixLog}"
+                                             FontSize="12"
+                                             TextWrapping="NoWrap" />
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
