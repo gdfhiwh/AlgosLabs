@@ -178,6 +178,11 @@ public partial class MainViewModel : ObservableObject
         var fibonacciViewModel = new FibonacciViewModel();
         AddSection(lab2, "Lab2.Individual", "Индивидуальное задание (Чикишев)",
             () => new FibonacciSectionView { DataContext = fibonacciViewModel });
+
+        var sylvesterViewModel = new SylvesterViewModel();
+        AddSection(lab2, "Lab2.Sylvester", "Последовательность Сильвестра",
+            () => new SylvesterSectionView { DataContext = sylvesterViewModel });
+
         Labs.Add(lab2);
 
         // Лаба 3.
