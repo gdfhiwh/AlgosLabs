@@ -44,5 +44,8 @@
       <Compile Update="Views\Sections\SylvesterSectionView.axaml.cs">
         <DependentUpon>SylvesterSectionView.axaml</DependentUpon>
       </Compile>
+      <Compile Update="Views\Sections\SylvesterSectionView.axaml.cs">
+        <DependentUpon>SylvesterSectionView.axaml</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>

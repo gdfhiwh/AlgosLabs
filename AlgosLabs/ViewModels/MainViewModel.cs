@@ -180,6 +180,11 @@ public partial class MainViewModel : ObservableObject
             () => new FibonacciSectionView { DataContext = fibonacciViewModel });
         Labs.Add(lab2);
 
+        var sylvesterViewModel = new SylvesterViewModel();
+        AddSection(lab2, "Lab2.Sylvester", "Последовательность Сильвестра",
+            () => new SylvesterSectionView { DataContext = sylvesterViewModel });
+
+
         // Лаба 3.
         var lab3 = new LabViewModel { Title = "3 Лаба" };
 
