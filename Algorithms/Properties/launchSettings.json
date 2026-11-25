@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Algorithms": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\goodo\\OneDrive\\Документы\\GitHub\\AlgosLabs\\AlgosLabs"
+    },
+    "Профиль 1": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\goodo\\OneDrive\\Документы\\GitHub\\AlgosLabs\\AlgosLabs\\AlgosLabs.csproj"
+    }
+  }
+}
